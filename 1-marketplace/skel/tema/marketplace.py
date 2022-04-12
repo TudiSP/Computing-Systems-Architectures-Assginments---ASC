@@ -6,9 +6,11 @@ Assignment 1
 March 2021
 """
 
+from concurrent.futures import thread
 from queue import Queue
 from uuid import uuid4
 import logging
+from threading import Lock, currentThread
 
 class Marketplace:
     """
@@ -25,7 +27,8 @@ class Marketplace:
         self.queue_size_per_producer = queue_size_per_producer
         self.product_lists = {}
         self.carts = {}
-        pass
+        self.publish_lock = Lock()
+        
 
     def register_producer(self):
         """
@@ -53,9 +56,8 @@ class Marketplace:
         producer_list = self.product_lists[producer_id]
         if len(producer_list) == self.queue_size_per_producer:
             return False
-        
-        producer_list.append(product)
-        logging.info('Producer (id: %s) publishing product: \"%s\"', product.name)
+
+        producer_list.append(product)       
         return True
 
     def new_cart(self):
@@ -83,11 +85,12 @@ class Marketplace:
         :returns True or False. If the caller receives False, it should wait and then try again
         """
 
-        for prod_id , list in self.lists.items():
+        for prod_id ,list in self.product_lists.items():
             for prod in list:
                 if prod == product:
                     self.carts[cart_id].append((product, prod_id))
                     list.remove(product)
+                    #print("added product " + str(product.name) + " to cart with id: " + str(cart_id))
                     return True
         
         return False
@@ -106,8 +109,10 @@ class Marketplace:
         for prod, prod_id in self.carts[cart_id]:
             if prod == product:
                 # [COULD BE A PROBLEM IF THERE ISN"T SPACE IN PRODUCT LIST]
+                self.carts[cart_id].remove((prod, prod_id))
                 self.product_lists[prod_id].append(product)
-                self.carts[cart_id].remove(product)
+                return
+                
         
 
     def place_order(self, cart_id):

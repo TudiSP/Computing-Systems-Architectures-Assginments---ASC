@@ -6,7 +6,10 @@ Assignment 1
 March 2021
 """
 
-from threading import Thread
+from itertools import product
+from pickletools import markobject
+from threading import Thread, Lock
+from time import sleep
 
 
 class Producer(Thread):
@@ -31,8 +34,22 @@ class Producer(Thread):
         @type kwargs:
         @param kwargs: other arguments that are passed to the Thread's __init__()
         """
-        pass
+
+        Thread.__init__(self,  **kwargs)
+        self.products = products
+        self.marketplace = marketplace
+        self.republish_wait_time = republish_wait_time
+        self.id = marketplace.register_producer()
+        
 
     def run(self):
-        
-        pass
+        while True:
+            #produce all products
+            for product, quantity, wait_time in self.products:
+                for i in range(quantity):
+                    publish_success = False
+                    while publish_success is False:
+                        publish_success = self.marketplace.publish(self.id, product)
+                        if publish_success is False:
+                            sleep(self.republish_wait_time)
+                    sleep(wait_time)
