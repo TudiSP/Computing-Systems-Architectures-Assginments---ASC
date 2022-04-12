@@ -6,6 +6,9 @@ Assignment 1
 March 2021
 """
 
+from queue import Queue
+from uuid import uuid4
+import logging
 
 class Marketplace:
     """
@@ -19,13 +22,21 @@ class Marketplace:
         :type queue_size_per_producer: Int
         :param queue_size_per_producer: the maximum size of a queue associated with each producer
         """
+        self.queue_size_per_producer = queue_size_per_producer
+        self.product_lists = {}
+        self.carts = {}
         pass
 
     def register_producer(self):
         """
         Returns an id for the producer that calls this.
+
         """
-        pass
+        #creating a list for each producer
+        id = str(uuid4())
+        self.product_lists[id] = []
+        logging.info('Registered producer with id: %s', id)
+        return id
 
     def publish(self, producer_id, product):
         """
@@ -39,7 +50,13 @@ class Marketplace:
 
         :returns True or False. If the caller receives False, it should wait and then try again.
         """
-        pass
+        producer_list = self.product_lists[producer_id]
+        if len(producer_list) == self.queue_size_per_producer:
+            return False
+        
+        producer_list.append(product)
+        logging.info('Producer (id: %s) publishing product: \"%s\"', product.name)
+        return True
 
     def new_cart(self):
         """
@@ -47,7 +64,11 @@ class Marketplace:
 
         :returns an int representing the cart_id
         """
-        pass
+        #creating a queue for each producer
+        id = uuid4()
+        self.carts[id.int] = []
+        logging.info('Created new cart with id: %d', id.int)
+        return id.int
 
     def add_to_cart(self, cart_id, product):
         """
@@ -61,7 +82,16 @@ class Marketplace:
 
         :returns True or False. If the caller receives False, it should wait and then try again
         """
-        pass
+
+        for prod_id , list in self.lists.items():
+            for prod in list:
+                if prod == product:
+                    self.carts[cart_id].append((product, prod_id))
+                    list.remove(product)
+                    return True
+        
+        return False
+        
 
     def remove_from_cart(self, cart_id, product):
         """
@@ -73,7 +103,12 @@ class Marketplace:
         :type product: Product
         :param product: the product to remove from cart
         """
-        pass
+        for prod, prod_id in self.carts[cart_id]:
+            if prod == product:
+                # [COULD BE A PROBLEM IF THERE ISN"T SPACE IN PRODUCT LIST]
+                self.product_lists[prod_id].append(product)
+                self.carts[cart_id].remove(product)
+        
 
     def place_order(self, cart_id):
         """
@@ -82,4 +117,4 @@ class Marketplace:
         :type cart_id: Int
         :param cart_id: id cart
         """
-        pass
+        return self.carts[cart_id]
