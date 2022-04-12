@@ -1,0 +1,40 @@
+author: Tudor Hermenean
+group: 331CC
+
+                Assignment 1 - Marketplace
+
+    Here's my take on the assignment problem.
+
+    Producers will publish their items non-stop till all customer
+threads exit whilst waiting between each product published and
+stopping temporarily if their maximum rezerved space of products
+has been reached in the Marketplace.
+
+    Consumers will consume products based on a predetermined behaviour
+My solution parses these behaviours efficiently and acts upon them
+when the customer either wants to add or remove products from a cart
+or wants to place an order on a cart.
+
+    The Marketplace is where data from the Producers and Consumers
+interacts. It is a container where each of the producers product
+lists are stored in dictionaries as well as all the carts corresponding
+to their respective consumers. Also I may add that all methods from
+the Marketplace class are logged providing information into the
+applications inner workings and makes it far easier to debug and test. 
+
+    My solution is fast because it doesn't use synchronization
+mechanisms (resulting in no overhead) for threads. The reason
+for that is the heavy use of dictionaries for storing and managing
+data between producers and consumers. Also all of the functions and
+operations done are thread-safe. As such there are no race conditions
+or deadlocks happening at runtime.
+
+    This assignment proved useful in deepening my understanding of
+multithreading and concurrent programming, as well as familiarizing
+myself with the python language and different API-s offered by the
+Python community.
+
+    What I could have improved on was the usage of unittesting of which
+I haven't made use of in this project.
+
+*GitHub: https://github.com/TudiSP/Computing-Systems-Architectures-Assginments---ASC
