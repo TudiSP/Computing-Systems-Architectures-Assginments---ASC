@@ -1,0 +1,6 @@
+// Helper for VS Code  IDE to run development container
+{
+	"name": "ASC CUDA Dev",
+	"image": "gitlab.cs.pub.ro:5050/asc/asc-public/cuda-labs:1.9.1",
+	"runArgs": [ "--rm", "--gpus=all"]
+}
