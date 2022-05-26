@@ -7,7 +7,7 @@
 using namespace std;
 
 // aprox 1 mil
-#define MSIZE (1 << 16)
+#define MSIZE (3 << 16)
 
 __global__ void pop_in_range(float *lat, float *lon, int *pop, int *accpop,
                              int kmrange, int n) {
@@ -50,7 +50,6 @@ int main(int argc, char **argv) {
 
     int i = 0;
     while (ifs >> geon >> lat[i] >> lon[i] >> pop[i]) {
-      ofs << geon << lat[i] << lon[i] << pop[i] << endl;
       i++;
     }
     int nrOfElements = i;
