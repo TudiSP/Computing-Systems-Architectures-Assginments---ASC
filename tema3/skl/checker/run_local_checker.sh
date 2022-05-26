@@ -43,8 +43,7 @@ echo "Executing tests on ${GPU} with timeout: ${TIMEOUT}s"
 timeout $TIMEOUT $FOLDERSOL/gpu_sol 789 $FOLDERTESTS/B0.in $FOLDERTESTS/B0.out \
 	423 $FOLDERTESTS/E1.in $FOLDERTESTS/E1.out \
 	477 $FOLDERTESTS/M1.in $FOLDERTESTS/M1.out \
-	515 $FOLDERTESTS/M2.in $FOLDERTESTS/M2.out \
-	438 $FOLDERTESTS/H1.in $FOLDERTESTS/H1.out
+	515 $FOLDERTESTS/M2.in $FOLDERTESTS/M2.out 
 if [ $? -ne 0 ]; then
 	echo "TIMEOUT"
 	echo "--------------------------------"
