@@ -1,6 +1,6 @@
 #!/bin/bash
 # TODO: add your username
-username=student
+username=tudor.hermenean
 
 # delete directory if exists
 ssh ${username}@fep.grid.pub.ro "rm -rf asctema3" &> /dev/null
