@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
     while (ifs >> geon >> lat[i] >> lon[i] >> pop[i]) {
       i++;
     }
-    int nrOfElements = i - 1;
+    int nrOfElements = i;
     int *accpop = (int *)malloc(nrOfElements * sizeof(int));
 
     float *device_lat = 0;
@@ -92,7 +92,6 @@ int main(int argc, char **argv) {
     for (i = 0; i < nrOfElements; i++) {
       ofs << accpop[i] << endl;
     }
-    ofs << pop[nrOfElements - 1] << endl;
 
     // Deallocate memory
     free(lat);
