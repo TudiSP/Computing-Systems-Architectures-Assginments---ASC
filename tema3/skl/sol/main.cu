@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 
     int i = 0;
     while (ifs >> geon >> lat[i] >> lon[i] >> pop[i]) {
-      ofs << geon << lat[i] << lon[i] << pop[i];
+      ofs << geon << lat[i] << lon[i] << pop[i] << endl;
       i++;
     }
     int nrOfElements = i;
