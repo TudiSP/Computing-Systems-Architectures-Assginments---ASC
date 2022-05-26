@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
                cudaMemcpyDeviceToHost);
 
     for (i = 0; i < nrOfElements; i++) {
-      ofs << pop << endl;
+      ofs << pop[i] << endl;
     }
 
     // Deallocate memory
