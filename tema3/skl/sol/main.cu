@@ -1,19 +1,34 @@
 #include "helper.h"
 #include <fstream>
 #include <iostream>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 using namespace std;
 
 // aprox 1 mil
 #define MSIZE (1 << 16)
+
 __global__ void pop_in_range(float *lat, float *lon, int *pop, int kmrange,
                              int n) {
   unsigned int i = threadIdx.x + blockDim.x * blockIdx.x;
 
   int accpop = 0;
   for (int j = 0; j < n; j++) {
-    if (geoDistance(lat[i], lon[i], lat[j], lon[j]) <= kmrange) {
+    float phi1 = (90.f - lat[i]) * DEGREE_TO_RADIANS;
+    float phi2 = (90.f - lat[j]) * DEGREE_TO_RADIANS;
+
+    float theta1 = lon[i] * DEGREE_TO_RADIANS;
+    float theta2 = lon[j] * DEGREE_TO_RADIANS;
+
+    float cs =
+        sin(phi1) * sin(phi2) * cos(theta1 - theta2) + cos(phi1) * cos(phi2);
+    if (cs > 1) {
+      cs = 1;
+    } else if (cs < -1) {
+      cs = -1;
+    }
+    if ((6371.f * acos(cs)) <= kmrange) {
       accpop += pop[j];
     }
   }
