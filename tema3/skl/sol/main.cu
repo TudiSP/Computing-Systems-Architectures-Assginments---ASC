@@ -7,7 +7,7 @@
 using namespace std;
 
 // aprox 1 mil
-#define MSIZE (3 << 16)
+#define MSIZE (1 << 20)
 
 __global__ void pop_in_range(float *lat, float *lon, int *pop, int *accpop,
                              int kmrange, int n) {
