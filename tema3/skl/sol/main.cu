@@ -92,6 +92,7 @@ int main(int argc, char **argv) {
     for (i = 0; i < nrOfElements; i++) {
       ofs << accpop[i] << endl;
     }
+    ofs << pop[nrOfElements - 1] << endl;
 
     // Deallocate memory
     free(lat);
